@@ -1,3 +1,13 @@
+# Package manager directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
 # Logs
 logs
 *.log
