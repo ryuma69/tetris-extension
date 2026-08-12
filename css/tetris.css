@@ -1,0 +1,244 @@
+/* Tetris Game UI Overlay styles */
+
+.game-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+body.game-active .game-overlay {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Invisible Spacer to represent the board drawn on the canvas */
+.game-overlay::before {
+  content: '';
+  display: block;
+  width: 320px; /* Matching (10 columns * 32px) block size */
+  height: 640px; /* Matching (20 rows * 32px) block size */
+  flex-shrink: 0;
+}
+
+/* HUD Panel */
+.game-hud {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 260px;
+  flex-shrink: 0;
+}
+
+/* HUD Cards styling - premium dark glassmorphism */
+.hud-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.hud-card.accent {
+  border-color: rgba(109, 93, 252, 0.3);
+  box-shadow: var(--glass-shadow), 0 0 15px rgba(109, 93, 252, 0.1);
+}
+
+.hud-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.hud-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+}
+
+.hud-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+/* Stats Row for Level & Lines */
+.hud-row {
+  display: flex;
+  gap: 16px;
+}
+
+.hud-card.small {
+  flex: 1;
+  padding: 12px 16px;
+}
+
+.hud-card.small .hud-value {
+  font-size: 1.5rem;
+}
+
+/* Next Piece Box */
+.next-piece-card {
+  align-items: center;
+}
+
+.next-canvas-wrapper {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+#next-canvas {
+  display: block;
+}
+
+/* Keyboard Help Panel */
+.help-card {
+  padding: 14px 18px;
+}
+
+.controls-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.controls-list div {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.controls-list div span:first-child {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Modals for Game Events (Pause, Game Over) */
+.modal-screen {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: rgba(7, 9, 19, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+.modal-card {
+  background: rgba(18, 20, 38, 0.9);
+  border: 1px solid rgba(109, 93, 252, 0.3);
+  border-radius: 24px;
+  padding: 40px;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(109, 93, 252, 0.2);
+  animation: modalBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-card h2 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.modal-card .highlight {
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-size: 1.8rem;
+  font-family: var(--font-display);
+}
+
+.final-score-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+.restart-prompt {
+  margin-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
+}
+
+@keyframes modalBounce {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Visibility toggling helper */
+.hidden {
+  display: none !important;
+}
+
+/* Responsive adjustment */
+@media (max-width: 900px) {
+  .game-overlay {
+    flex-direction: column;
+    gap: 20px;
+    padding-top: 20px;
+    overflow-y: auto;
+  }
+  
+  .game-overlay::before {
+    width: 240px; /* Scale down for smaller viewports */
+    height: 480px;
+  }
+  
+  .game-hud {
+    width: 240px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .hud-card {
+    flex: 1 1 110px;
+    padding: 10px 14px;
+  }
+  
+  .hud-row {
+    width: 100%;
+  }
+  
+  .next-piece-card, .help-card {
+    display: none; /* Hide auxiliary elements on small height screens */
+  }
+}
