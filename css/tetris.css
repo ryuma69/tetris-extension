@@ -1,4 +1,4 @@
-/* Tetris Game UI Overlay styles */
+/* Retro Terminal Game HUD Styles */
 
 .game-overlay {
   position: fixed;
@@ -12,6 +12,7 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  font-family: var(--font-mono);
 }
 
 body.game-active .game-overlay {
@@ -20,7 +21,7 @@ body.game-active .game-overlay {
   pointer-events: auto;
 }
 
-/* Invisible Spacer to represent the board drawn on the canvas */
+/* Invisible Spacer to align side HUD cards with the Canvas game board */
 .game-overlay::before {
   content: '';
   display: block;
@@ -33,114 +34,111 @@ body.game-active .game-overlay {
 .game-hud {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   width: 260px;
   flex-shrink: 0;
 }
 
-/* HUD Cards styling - premium dark glassmorphism */
+/* HUD Cards - styled like retro terminal terminals */
 .hud-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 16px 20px;
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(2, 6, 2, 0.9);
+  border: 2px solid var(--color-green-dim);
+  border-radius: 6px;
+  padding: 14px 18px;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  gap: 4px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hud-card.accent {
-  border-color: rgba(109, 93, 252, 0.3);
-  box-shadow: var(--glass-shadow), 0 0 15px rgba(109, 93, 252, 0.1);
+  border-color: var(--color-green);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.12);
 }
 
 .hud-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--color-green);
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
 }
 
 .hud-label {
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 1.5px;
-  color: var(--text-secondary);
+  letter-spacing: 1px;
+  color: var(--color-green-dim);
 }
 
 .hud-value {
-  font-family: var(--font-display);
-  font-size: 2rem;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
+  color: var(--color-green);
+  text-shadow: 0 0 6px var(--color-green-glow);
 }
 
 /* Stats Row for Level & Lines */
 .hud-row {
   display: flex;
-  gap: 16px;
+  gap: 12px;
 }
 
 .hud-card.small {
   flex: 1;
-  padding: 12px 16px;
+  padding: 10px 14px;
 }
 
 .hud-card.small .hud-value {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
-/* Next Piece Box */
+/* Next Piece Container */
 .next-piece-card {
   align-items: center;
 }
 
 .next-canvas-wrapper {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
   padding: 8px;
   margin-top: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 65, 0.15);
 }
 
 #next-canvas {
   display: block;
 }
 
-/* Keyboard Help Panel */
+/* Keyboard Help List */
 .help-card {
-  padding: 14px 18px;
+  padding: 12px 16px;
 }
 
 .controls-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   margin-top: 4px;
 }
 
 .controls-list div {
   display: flex;
   justify-content: space-between;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
+  font-size: 0.75rem;
+  color: var(--color-green-dim);
 }
 
 .controls-list div span:first-child {
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--color-white);
 }
 
-/* Modals for Game Events (Pause, Game Over) */
+/* Modal Popup Overlay (CRT monitor pause / game over) */
 .modal-screen {
   position: absolute;
   inset: 0;
   z-index: 100;
-  background: rgba(7, 9, 19, 0.75);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(3, 5, 3, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,77 +146,86 @@ body.game-active .game-overlay {
 }
 
 .modal-card {
-  background: rgba(18, 20, 38, 0.9);
-  border: 1px solid rgba(109, 93, 252, 0.3);
-  border-radius: 24px;
-  padding: 40px;
+  background: #020502;
+  border: 2px solid var(--color-green);
+  border-radius: 8px;
+  padding: 36px;
   width: 90%;
   max-width: 380px;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(109, 93, 252, 0.2);
-  animation: modalBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 0 30px rgba(0, 255, 65, 0.25);
+  animation: terminalBoot 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .modal-card h2 {
-  font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-family: var(--font-mono);
+  font-size: 1.6rem;
   font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
+  color: var(--color-green);
+  text-shadow: 0 0 10px var(--color-green-glow);
   margin-bottom: 16px;
-  background: linear-gradient(135deg, #fff 0%, var(--text-secondary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .modal-card p {
-  color: var(--text-secondary);
-  font-size: 1rem;
+  color: var(--color-green-dim);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .modal-card .highlight {
-  color: var(--accent-cyan);
+  color: var(--color-white);
   font-weight: 700;
-  font-size: 1.8rem;
-  font-family: var(--font-display);
+  font-size: 1.6rem;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .final-score-row {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-bottom: 24px;
-  font-size: 1.1rem;
-  color: var(--text-secondary);
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: var(--color-green-dim);
 }
 
 .restart-prompt {
   margin-top: 12px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px dashed rgba(0, 255, 65, 0.15);
   padding-top: 16px;
 }
 
-@keyframes modalBounce {
-  0% { transform: scale(0.8); opacity: 0; }
+.key-badge {
+  display: inline-block;
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid var(--color-green);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-white);
+  margin: 0 2px;
+}
+
+@keyframes terminalBoot {
+  0% { transform: scale(0.9); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* Visibility toggling helper */
 .hidden {
   display: none !important;
 }
 
-/* Responsive adjustment */
+/* Responsive Scaling */
 @media (max-width: 900px) {
   .game-overlay {
     flex-direction: column;
-    gap: 20px;
-    padding-top: 20px;
+    gap: 16px;
+    padding-top: 16px;
     overflow-y: auto;
   }
   
   .game-overlay::before {
-    width: 240px; /* Scale down for smaller viewports */
+    width: 240px;
     height: 480px;
   }
   
@@ -227,18 +234,20 @@ body.game-active .game-overlay {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 12px;
   }
   
   .hud-card {
     flex: 1 1 110px;
-    padding: 10px 14px;
+    padding: 8px 12px;
   }
   
   .hud-row {
     width: 100%;
+    gap: 12px;
   }
   
   .next-piece-card, .help-card {
-    display: none; /* Hide auxiliary elements on small height screens */
+    display: none;
   }
 }

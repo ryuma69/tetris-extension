@@ -1,7 +1,7 @@
 /**
- * Main Controller
- * Bootstraps the application, updates dashboard clocks/dates, controls animation frames,
- * manages mode toggle events, and keeps UI components updated.
+ * Main Controller (Linux Terminal Edition)
+ * Bootstraps the application, updates terminal clocks/uptimes, controls animation frames,
+ * manages daemon state variables, and updates HUD panels.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,9 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('ambient-autoplay');
 
   // DOM elements
-  const clockEl = document.getElementById('clock');
-  const dateEl = document.getElementById('date');
-  const greetingEl = document.getElementById('greeting');
+  const uptimeValEl = document.getElementById('uptime-val');
+  const daemonStatusEl = document.getElementById('daemon-status');
   const gameOverlayEl = document.getElementById('game-overlay');
   const scoreValEl = document.getElementById('score-val');
   const highscoreValEl = document.getElementById('highscore-val');
@@ -33,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Mode state tracker
   let isAmbient = true;
   let lastPlayerFallTime = 0;
+  const pageLoadTime = Date.now();
 
   // Toggle mode callback
   const toggleGameMode = (activatePlayerPlay) => {
@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('ambient-autoplay');
       document.body.classList.add('game-active');
       gameOverlayEl.classList.remove('hidden');
+      
+      // Update Daemon status spec
+      daemonStatusEl.textContent = 'tetris-ai.service (suspended)';
+      daemonStatusEl.className = 'status-suspended';
       
       // If switching from ambient, reset board to clean state for a fresh game
       if (game.isGameOver) {
@@ -60,6 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
       pauseScreenEl.classList.add('hidden');
       gameOverScreenEl.classList.add('hidden');
 
+      // Update Daemon status spec
+      daemonStatusEl.textContent = 'tetris-ai.service (active)';
+      daemonStatusEl.className = 'status-active';
+
       // AI takeover on existing board state
       game.isPaused = false;
       if (game.isGameOver) {
@@ -73,39 +81,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set up Keyboard and Mode Switch inputs
   const input = new InputHandler(game, toggleGameMode);
 
-  // Synchronize clock & greeting
-  function updateClock() {
-    const now = new Date();
-    
-    // Time formatting
-    let hours = now.getHours();
-    let minutes = now.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12; // 0 should be 12
-    minutes = minutes < 10 ? '0' + minutes : minutes;
-    clockEl.textContent = `${hours}:${minutes} ${ampm}`;
-
-    // Date formatting
-    const dateOptions = { weekday: 'long', month: 'long', day: 'numeric' };
-    dateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
-
-    // Personal Greeting
-    const hour24 = now.getHours();
-    let greeting = 'Welcome';
-    if (hour24 < 12) {
-      greeting = 'Good morning';
-    } else if (hour24 < 18) {
-      greeting = 'Good afternoon';
-    } else {
-      greeting = 'Good evening';
-    }
-    greetingEl.textContent = greeting;
+  // Sync uptime clock (format: hh:mm:ss)
+  function updateUptime() {
+    const elapsed = Math.floor((Date.now() - pageLoadTime) / 1000);
+    const hrs = String(Math.floor(elapsed / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((elapsed % 3600) / 60)).padStart(2, '0');
+    const secs = String(elapsed % 60).padStart(2, '0');
+    uptimeValEl.textContent = `${hrs}:${mins}:${secs}`;
   }
 
-  // Update Clock immediately and every second
-  updateClock();
-  setInterval(updateClock, 1000);
+  // Update Uptime immediately and every second
+  updateUptime();
+  setInterval(updateUptime, 1000);
 
   // Sync highscore event
   window.addEventListener('highScoreUpdated', (e) => {
@@ -129,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Toggle gameover modal visibility
     if (game.isGameOver && !isAmbient) {
-      finalScoreValEl.textContent = game.score;
+      finalScoreValEl.textContent = String(game.score).padStart(6, '0');
       gameOverScreenEl.classList.remove('hidden');
     } else {
       gameOverScreenEl.classList.add('hidden');

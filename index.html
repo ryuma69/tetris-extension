@@ -3,132 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Tab</title>
-  <!-- Google Fonts for premium typography -->
+  <title>New Tab - Tetris Terminal</title>
+  <!-- Google Fonts for retro/linux coding typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/tetris.css">
 </head>
 <body>
 
-  <!-- Fullscreen Tetris Canvas -->
+  <!-- Fullscreen Tetris Canvas (Ambient Background) -->
   <canvas id="tetris-canvas"></canvas>
 
-  <!-- Ambient Grid Glow Overlay -->
-  <div class="ambient-glow"></div>
+  <!-- CRT Screen Overlay Effects -->
+  <div class="crt-scanlines"></div>
+  <div class="crt-vignette"></div>
 
-  <!-- Dashboard Container -->
-  <main id="dashboard" class="dashboard">
-    <div class="dashboard-content">
-      <!-- Time & Date Display -->
-      <header class="time-header">
-        <h1 id="clock" aria-label="Current Time">00:00</h1>
-        <p id="date" class="date-display">Wednesday, August 12</p>
-        <p id="greeting" class="greeting-display">Welcome</p>
-      </header>
+  <!-- Terminal Window (Dashboard) -->
+  <main id="dashboard" class="terminal-window">
+    <!-- Window Title Bar -->
+    <div class="terminal-bar">
+      <div class="window-controls">
+        <span class="dot dot-close"></span>
+        <span class="dot dot-min"></span>
+        <span class="dot dot-max"></span>
+      </div>
+      <span class="window-title">bash - guest@tetris-tab: ~</span>
+    </div>
 
-      <!-- Search Component -->
+    <!-- Terminal Content Area -->
+    <div class="terminal-content">
+      
+      <!-- System Specs (Neofetch layout) -->
+      <section class="neofetch-section">
+        <pre class="ascii-logo">
+    _     _  
+   [_]   [_] 
+   [_]_ _[_] 
+   [__] [__] 
+   [_]   [_] 
+        </pre>
+        <div class="specs-panel">
+          <div class="specs-header">guest@tetris-tab</div>
+          <div class="specs-separator">----------------</div>
+          <div class="spec-line"><span class="spec-label">OS:</span> TetrisOS v1.1.0</div>
+          <div class="spec-line"><span class="spec-label">Host:</span> Chrome-Extension TTY1</div>
+          <div class="spec-line"><span class="spec-label">Kernel:</span> NewTab-V3-Shell</div>
+          <div class="spec-line"><span class="spec-label">Uptime:</span> <span id="uptime-val">00:00:00</span></div>
+          <div class="spec-line"><span class="spec-label">Shell:</span> bash 5.1.16</div>
+          <div class="spec-line"><span class="spec-label">Daemon:</span> <span id="daemon-status" class="status-active">tetris-ai.service (active)</span></div>
+        </div>
+      </section>
+
+      <!-- Google Search represented as Bash prompt command -->
       <section class="search-section">
         <form id="search-form" action="https://www.google.com/search" method="get" autocomplete="off">
-          <div class="search-bar-wrapper">
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input id="search-input" type="text" name="q" placeholder="Search Google..." autofocus>
-            <button type="submit" class="search-submit" aria-label="Search">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </button>
+          <div class="terminal-prompt">
+            <span class="prompt-user">guest@tetris-tab:~$</span>
+            <span class="prompt-cmd">google-search --query</span>
+            <div class="input-wrapper">
+              <input id="search-input" type="text" name="q" placeholder="Enter query..." autofocus>
+              <span class="custom-cursor"></span>
+            </div>
           </div>
         </form>
       </section>
 
-      <!-- Shortcuts Component -->
+      <!-- Quick Shortcuts represented as Directory File Listing (ls -la) -->
       <section class="shortcuts-section">
-        <div class="shortcuts-grid">
-          <a href="https://github.com" class="shortcut-item" target="_blank" rel="noopener noreferrer">
-            <div class="shortcut-icon-wrapper">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
+        <div class="terminal-ls">
+          <div class="ls-header"><span class="prompt-user">guest@tetris-tab:~$</span> <span class="prompt-cmd">ls -la /shortcuts</span></div>
+          <div class="ls-grid">
+            <div class="ls-line header-line">total 12</div>
+            <div class="ls-line">
+              <span class="file-perms">drwxr-xr-x</span> <span class="file-links">1</span> <span class="file-owner">ryuma</span> <span class="file-group">staff</span> <span class="file-size">4096</span> <span class="file-date">Aug 12</span> <a href="https://github.com" class="file-name dir-link" target="_blank" rel="noopener noreferrer">github.lnk/</a>
             </div>
-            <span class="shortcut-title">GitHub</span>
-          </a>
-          <a href="https://youtube.com" class="shortcut-item" target="_blank" rel="noopener noreferrer">
-            <div class="shortcut-icon-wrapper">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-              </svg>
+            <div class="ls-line">
+              <span class="file-perms">drwxr-xr-x</span> <span class="file-links">1</span> <span class="file-owner">ryuma</span> <span class="file-group">staff</span> <span class="file-size">4096</span> <span class="file-date">Aug 12</span> <a href="https://youtube.com" class="file-name dir-link" target="_blank" rel="noopener noreferrer">youtube.lnk/</a>
             </div>
-            <span class="shortcut-title">YouTube</span>
-          </a>
-          <a href="https://gmail.com" class="shortcut-item" target="_blank" rel="noopener noreferrer">
-            <div class="shortcut-icon-wrapper">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
+            <div class="ls-line">
+              <span class="file-perms">drwxr-xr-x</span> <span class="file-links">1</span> <span class="file-owner">ryuma</span> <span class="file-group">staff</span> <span class="file-size">4096</span> <span class="file-date">Aug 12</span> <a href="https://gmail.com" class="file-name dir-link" target="_blank" rel="noopener noreferrer">gmail.lnk/</a>
             </div>
-            <span class="shortcut-title">Gmail</span>
-          </a>
+          </div>
         </div>
       </section>
 
-      <!-- Activation Call-to-action Footer -->
+      <!-- Terminal Activation Footer -->
       <footer class="activation-footer">
-        <p class="status-ambient">Press <span class="key-badge">T</span> to Play Tetris</p>
-        <p class="status-game">Press <span class="key-badge">ESC</span> to Return to Home</p>
+        <p class="status-ambient"><span class="prompt-user">guest@tetris-tab:~$</span> ./boot_tetris.sh <span class="key-hint">[Press T]</span></p>
+        <p class="status-game"><span class="prompt-user">guest@tetris-tab:~$</span> killall tetris_process <span class="key-hint">[Press ESC]</span></p>
       </footer>
     </div>
   </main>
 
-  <!-- Interactive Tetris UI Overlay (HUD) -->
+  <!-- Interactive Tetris UI Overlay (Retro HUD) -->
   <div id="game-overlay" class="game-overlay hidden">
     <div class="game-hud">
       <!-- High Score Card -->
       <div class="hud-card">
-        <div class="hud-label">HIGH SCORE</div>
+        <div class="hud-label">[ HIGH SCORE ]</div>
         <div id="highscore-val" class="hud-value">000000</div>
       </div>
       <!-- Score Card -->
       <div class="hud-card accent">
-        <div class="hud-label">SCORE</div>
+        <div class="hud-label">[ SCORE ]</div>
         <div id="score-val" class="hud-value">000000</div>
       </div>
       <!-- Stats Row -->
       <div class="hud-row">
         <div class="hud-card small">
-          <div class="hud-label">LEVEL</div>
+          <div class="hud-label">[ LVL ]</div>
           <div id="level-val" class="hud-value">1</div>
         </div>
         <div class="hud-card small">
-          <div class="hud-label">LINES</div>
+          <div class="hud-label">[ LINES ]</div>
           <div id="lines-val" class="hud-value">0</div>
         </div>
       </div>
       <!-- Next Piece Card -->
       <div class="hud-card next-piece-card">
-        <div class="hud-label">NEXT PIECE</div>
+        <div class="hud-label">[ NEXT ]</div>
         <div class="next-canvas-wrapper">
           <canvas id="next-canvas" width="120" height="120"></canvas>
         </div>
       </div>
       <!-- Game Control Keys Help -->
       <div class="hud-card help-card">
-        <div class="hud-label">CONTROLS</div>
+        <div class="hud-label">[ CONTROLS ]</div>
         <div class="controls-list">
-          <div><span>← → / A D</span><span>Move</span></div>
-          <div><span>↑ / W</span><span>Rotate</span></div>
-          <div><span>↓ / S</span><span>Soft Drop</span></div>
+          <div><span>A/D, ←/→</span><span>Move</span></div>
+          <div><span>W, ↑</span><span>Rotate</span></div>
+          <div><span>S, ↓</span><span>Soft Drop</span></div>
           <div><span>Space</span><span>Hard Drop</span></div>
           <div><span>P</span><span>Pause</span></div>
-          <div><span>Esc</span><span>Exit Game</span></div>
+          <div><span>Esc</span><span>Exit</span></div>
         </div>
       </div>
     </div>
@@ -136,20 +145,20 @@
     <!-- Pause Indicator -->
     <div id="pause-screen" class="modal-screen hidden">
       <div class="modal-card">
-        <h2>GAME PAUSED</h2>
-        <p>Press <span class="key-badge">P</span> to Resume</p>
+        <h2>[ PROCESS PAUSED ]</h2>
+        <p>Press <span class="key-badge">P</span> to SIGCONT</p>
       </div>
     </div>
 
     <!-- Game Over Indicator -->
     <div id="game-over-screen" class="modal-screen hidden">
       <div class="modal-card">
-        <h2>GAME OVER</h2>
+        <h2>[ PROCESS TERMINATED ]</h2>
         <div class="final-score-row">
-          <span>Final Score:</span>
-          <span id="final-score-val" class="highlight">0</span>
+          <span>Exit Code Status:</span>
+          <span id="final-score-val" class="highlight">000000</span>
         </div>
-        <p class="restart-prompt">Press <span class="key-badge">T</span> to Restart</p>
+        <p class="restart-prompt">Press <span class="key-badge">T</span> to Reboot</p>
       </div>
     </div>
   </div>
