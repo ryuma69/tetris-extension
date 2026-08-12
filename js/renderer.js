@@ -38,11 +38,11 @@ class TetrisRenderer {
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
-    // Compute block size dynamically: fit 20 rows nicely with 80% viewport height
-    const targetHeight = window.innerHeight * 0.78;
+    // Compute block size dynamically: fit 20 rows nicely with 82% viewport height
+    const targetHeight = window.innerHeight * 0.82;
     this.blockSize = Math.floor(targetHeight / 20);
-    // Keep it between reasonable sizes (e.g. 20px and 36px)
-    this.blockSize = Math.max(20, Math.min(this.blockSize, 36));
+    // Keep it between reasonable sizes (zoomed for desktop)
+    this.blockSize = Math.max(24, Math.min(this.blockSize, 45));
 
     this.boardWidth = 10 * this.blockSize;
     this.boardHeight = 20 * this.blockSize;
@@ -50,6 +50,9 @@ class TetrisRenderer {
     // Center the board
     this.boardOffsetX = Math.floor((this.canvas.width - this.boardWidth) / 2);
     this.boardOffsetY = Math.floor((this.canvas.height - this.boardHeight) / 2);
+
+    // Update CSS custom variable for HTML overlays spacing
+    document.documentElement.style.setProperty('--block-size', `${this.blockSize}px`);
   }
 
   // Draw a single block with premium aesthetic (rounded, gradient, border)

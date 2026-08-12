@@ -24,8 +24,8 @@ body.game-active .game-overlay {
 .game-overlay::before {
   content: '';
   display: block;
-  width: 320px; /* Matching (10 columns * 32px) block size */
-  height: 640px; /* Matching (20 rows * 32px) block size */
+  width: calc(10 * var(--block-size, 32px));
+  height: calc(20 * var(--block-size, 32px));
   flex-shrink: 0;
 }
 
