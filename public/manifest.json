@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Tetris New Tab",
+  "version": "1.1.0",
+  "description": "A retro Linux terminal dashboard featuring a background Tetris game and WebGL plasma visuals that you can play at any time.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage"]
+}

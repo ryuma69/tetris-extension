@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #030503; /* --bg-terminal */
+    color: #00ff41; /* --color-green */
+    font-family: 'Fira Code', 'Courier New', Courier, monospace;
+    min-height: 100vh;
+    overflow: hidden;
+    user-select: none;
+  }
+}
+
+/* CRT Scanlines Filter Overlay */
+.crt-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.22) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0.85;
+}
+
+/* CRT Screen Corner Vignette Glow */
+.crt-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  background: radial-gradient(
+    circle, 
+    transparent 55%, 
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
